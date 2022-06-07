@@ -1,0 +1,59 @@
+<section id="torch-toolbar">
+  <div class="torch-container">
+    <%= link "New Account number", to: Routes.account_number_path(@conn, :new) %>
+  </div>
+</section>
+<section id="torch-index-content">
+  <div class="torch-container">
+    <section id="torch-filters">
+      <h3>Find Account numbers</h3>
+      <%= form_tag @conn.request_path, method: :get, id: "torch-filters-form" do %>
+        
+          <div class="field">
+            <label>Value</label>
+            <%= filter_select(:account_number, :value, @conn.params) %>
+            <%= filter_string_input(:account_number, :value, @conn.params) %>
+          </div>
+        
+        
+        
+        
+        <button type="submit" class="torch-button">Search</button>
+        <%= link "Clear Filters", to: Routes.account_number_path(@conn, :index) %>
+      <% end %>
+
+    </section>
+
+    <section id="torch-table">
+    <%= if length(@account_numbers) > 0 do %>
+      <table>
+        <thead>
+          <tr>
+            
+              <th><%= table_link(@conn, "Value", :value) %></th>
+            
+            <th><span>Actions</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= for account_number <- @account_numbers do %>
+            <tr>
+              
+                <td><%= account_number.value %></td>
+              
+              <td class="torch-actions">
+                <span><%= link "Show", to: Routes.account_number_path(@conn, :show, account_number) %></span>
+                <span><%= link "Edit", to: Routes.account_number_path(@conn, :edit, account_number) %></span>
+                <span><%= link "Delete", to: Routes.account_number_path(@conn, :delete, account_number), method: :delete, data: [confirm: "Are you sure?"] %></span>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <%= render Torch.PaginationView, "_pagination.html", assigns %>
+    <% else %>
+      <p class="torch-no-data">No Account numbers match your search.</p>
+    <% end %>
+    </section>
+  </div>
+</section>

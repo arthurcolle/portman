@@ -1,0 +1,83 @@
+<section id="torch-toolbar">
+  <div class="torch-container">
+    <%= link "New Portfolio", to: Routes.portfolio_path(@conn, :new) %>
+  </div>
+</section>
+<section id="torch-index-content">
+  <div class="torch-container">
+    <section id="torch-filters">
+      <h3>Find Portfolios</h3>
+      <%= form_tag @conn.request_path, method: :get, id: "torch-filters-form" do %>
+        
+          <div class="field">
+            <label>Portfolio type</label>
+            <%= filter_select(:portfolio, :portfolio_type, @conn.params) %>
+            <%= filter_string_input(:portfolio, :portfolio_type, @conn.params) %>
+          </div>
+        
+          <div class="field">
+            <label>Name</label>
+            <%= filter_select(:portfolio, :name, @conn.params) %>
+            <%= filter_string_input(:portfolio, :name, @conn.params) %>
+          </div>
+        
+          <div class="field">
+            <label>Currency denomination</label>
+            <%= filter_select(:portfolio, :currency_denomination, @conn.params) %>
+            <%= filter_string_input(:portfolio, :currency_denomination, @conn.params) %>
+          </div>
+        
+        
+        
+        
+        <button type="submit" class="torch-button">Search</button>
+        <%= link "Clear Filters", to: Routes.portfolio_path(@conn, :index) %>
+      <% end %>
+
+    </section>
+
+    <section id="torch-table">
+    <%= if length(@portfolios) > 0 do %>
+      <table>
+        <thead>
+          <tr>
+            
+              <th><%= table_link(@conn, "Portfolio type", :portfolio_type) %></th>
+            
+              <th><%= table_link(@conn, "Name", :name) %></th>
+            
+              <th><%= table_link(@conn, "Budget", :budget) %></th>
+            
+              <th><%= table_link(@conn, "Currency denomination", :currency_denomination) %></th>
+            
+            <th><span>Actions</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= for portfolio <- @portfolios do %>
+            <tr>
+              
+                <td><%= portfolio.portfolio_type %></td>
+              
+                <td><%= portfolio.name %></td>
+              
+                <td><%= portfolio.budget %></td>
+              
+                <td><%= portfolio.currency_denomination %></td>
+              
+              <td class="torch-actions">
+                <span><%= link "Show", to: Routes.portfolio_path(@conn, :show, portfolio) %></span>
+                <span><%= link "Edit", to: Routes.portfolio_path(@conn, :edit, portfolio) %></span>
+                <span><%= link "Delete", to: Routes.portfolio_path(@conn, :delete, portfolio), method: :delete, data: [confirm: "Are you sure?"] %></span>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <%= render Torch.PaginationView, "_pagination.html", assigns %>
+    <% else %>
+      <p class="torch-no-data">No Portfolios match your search.</p>
+    <% end %>
+    </section>
+  </div>
+</section>
