@@ -54,7 +54,8 @@ defmodule PortfolioManagement.MixProject do
       {:hound, "~> 1.0"},
       {:yahoo_finance_elixir, "~> 0.1.3"},
       {:explorer, "~> 0.1.1"},
-      {:enum_type, "~> 1.1.3"}
+      {:enum_type, "~> 1.1.3"},
+      {:gen_stage, "~> 1.0"}
     ]
   end
 
