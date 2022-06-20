@@ -35,7 +35,7 @@ defmodule PortfolioManagementWeb.Router do
 
     # Market Data routes
     resources "/tickers", TickerController
-    # resources "/options", OptionController
+    resources "/options", OptionController
 
   end
 

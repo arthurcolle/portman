@@ -14,13 +14,15 @@ defmodule PortfolioManagement.MixProject do
     ]
   end
 
-  # Configuration for the OTP application.
-  #
-  # Type `mix help compile.app` for more information.
+  # Configuration for the OTP application - (`mix help compile.app` for further info.)
   def application do
     [
       mod: {PortfolioManagement.Application, []},
-      extra_applications: [:logger, :runtime_tools, :hound]
+      extra_applications: [
+        :logger,
+        :runtime_tools,
+        :hound
+      ]
     ]
   end
 

@@ -20,4 +20,18 @@ defmodule PortfolioManagement.MarketDataFixtures do
 
     ticker
   end
+
+  @doc """
+  Generate a option.
+  """
+  def option_fixture(attrs \\ %{}) do
+    {:ok, option} =
+      attrs
+      |> Enum.into(%{
+
+      })
+      |> PortfolioManagement.MarketData.create_option()
+
+    option
+  end
 end

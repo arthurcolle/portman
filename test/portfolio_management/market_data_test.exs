@@ -98,4 +98,92 @@ defmodule PortfolioManagement.MarketDataTest do
     ticker
   end
 
+
+  alias PortfolioManagement.MarketData.Option
+
+  @valid_attrs %{}
+  @update_attrs %{}
+  @invalid_attrs %{}
+
+  describe "#paginate_options/1" do
+    test "returns paginated list of options" do
+      for _ <- 1..20 do
+        option_fixture()
+      end
+
+      {:ok, %{options: options} = page} = MarketData.paginate_options(%{})
+
+      assert length(options) == 15
+      assert page.page_number == 1
+      assert page.page_size == 15
+      assert page.total_pages == 2
+      assert page.total_entries == 20
+      assert page.distance == 5
+      assert page.sort_field == "inserted_at"
+      assert page.sort_direction == "desc"
+    end
+  end
+
+  describe "#list_options/0" do
+    test "returns all options" do
+      option = option_fixture()
+      assert MarketData.list_options() == [option]
+    end
+  end
+
+  describe "#get_option!/1" do
+    test "returns the option with given id" do
+      option = option_fixture()
+      assert MarketData.get_option!(option.id) == option
+    end
+  end
+
+  describe "#create_option/1" do
+    test "with valid data creates a option" do
+      assert {:ok, %Option{} = option} = MarketData.create_option(@valid_attrs)
+    end
+
+    test "with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = MarketData.create_option(@invalid_attrs)
+    end
+  end
+
+  describe "#update_option/2" do
+    test "with valid data updates the option" do
+      option = option_fixture()
+      assert {:ok, option} = MarketData.update_option(option, @update_attrs)
+      assert %Option{} = option
+    end
+
+    test "with invalid data returns error changeset" do
+      option = option_fixture()
+      assert {:error, %Ecto.Changeset{}} = MarketData.update_option(option, @invalid_attrs)
+      assert option == MarketData.get_option!(option.id)
+    end
+  end
+
+  describe "#delete_option/1" do
+    test "deletes the option" do
+      option = option_fixture()
+      assert {:ok, %Option{}} = MarketData.delete_option(option)
+      assert_raise Ecto.NoResultsError, fn -> MarketData.get_option!(option.id) end
+    end
+  end
+
+  describe "#change_option/1" do
+    test "returns a option changeset" do
+      option = option_fixture()
+      assert %Ecto.Changeset{} = MarketData.change_option(option)
+    end
+  end
+
+  def option_fixture(attrs \\ %{}) do
+    {:ok, option} =
+      attrs
+      |> Enum.into(@valid_attrs)
+      |> MarketData.create_option()
+
+    option
+  end
+
 end

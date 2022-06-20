@@ -4,14 +4,15 @@ defmodule PortfolioManagementWeb.BookController do
   alias PortfolioManagement.TradeModel
   alias PortfolioManagement.TradeModel.Book
 
-  
+
   plug(:put_root_layout, {PortfolioManagementWeb.LayoutView, "torch.html"})
   plug(:put_layout, false)
-  
+
 
   def index(conn, params) do
     case TradeModel.paginate_books(params) do
       {:ok, assigns} ->
+        Kernel.update_in(assigns.books, [:budget], fn(b) -> :erlang.float_to_binary(b, decimals: 2) end)
         render(conn, "index.html", assigns)
       error ->
         conn
@@ -38,7 +39,10 @@ defmodule PortfolioManagementWeb.BookController do
 
   def show(conn, %{"id" => id}) do
     book = TradeModel.get_book!(id)
-    render(conn, "show.html", book: book)
+    formatted_budget =
+      book.budget
+      |> :erlang.float_to_binary(decimals: 2)
+    render(conn, "show.html", formatted_budget: formatted_budget, book: book)
   end
 
   def edit(conn, %{"id" => id}) do

@@ -1,0 +1,22 @@
+<.form let={f} for={@changeset} action={@action} id="torch-form" enctype="multipart/form-data">
+  <fieldset class="torch-panel">
+    <legend>
+      <span>Details</span>
+    </legend>
+    <%= if @changeset.action do %>
+      <p class="torch-form-error">Oops, something went wrong! Please check the errors below.</p>
+    <% end %>
+
+    <div class="torch-form-row">
+      <label for="torch-form-strike-price">Strike price</label>
+      <input type="text" id="torch-form-name" name="strike_price" value={f.strike_price} />
+      <%= if f.errors.on(:name) do %>
+        <p class="torch-form-error">{f.errors.on(:name)}</p>
+      <% end %>
+    </div>
+
+    <div class="torch-submit-form">
+      <%= submit "Submit", class: "torch-submit-button" %>
+    </div>
+  </fieldset>
+</.form>

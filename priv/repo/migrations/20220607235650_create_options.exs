@@ -2,7 +2,7 @@ defmodule PortfolioManagement.Repo.Migrations.CreateOptions do
   use Ecto.Migration
 
   def change do
-    create table("options") do
+    create table(:options) do
       add :option_id, :string, null: false
       add :option_type, :string, null: false
       add :ticker_id, references(:tickers)
@@ -13,8 +13,8 @@ defmodule PortfolioManagement.Repo.Migrations.CreateOptions do
       add :moneyness, :float
       add :theoretical_value, :float
       add :intrinsic_value, :float
-      # Extrinsic value is the difference between the market price of an option, also knowns as its premium, 
-      # and its intrinsic price, which is the difference between an option's strike price and the underlying 
+      # Extrinsic value is the difference between the market price of an option, also knowns as its premium,
+      # and its intrinsic price, which is the difference between an option's strike price and the underlying
       # asset's price. Extrinsic value rises with increase in volatility in the market.
       add :extrinsic_value, :float
       add :bid_price, :float
@@ -42,6 +42,8 @@ defmodule PortfolioManagement.Repo.Migrations.CreateOptions do
       add :change, :float
       add :change_percent, :float
       add :contract_period, :string
+
+      timestamps()
     end
   end
 end
